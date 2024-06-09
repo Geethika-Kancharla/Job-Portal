@@ -51,13 +51,14 @@ const Navbar = () => {
             {/*nav items for mobile */}
             <div className={`px-4 bg-black py-5 rounded-sm ${isMenuOpen ? "" :"hidden"}`}>
                 <ul>{navItems.map(({path,title}) =>(
-                  <li key={path} className='text-base text-white'>
+                  <li key={path} className='text-base text-white first:text-white py-1'>
                     <NavLink to={path} className={({isActive}) =>
 
                     isActive  ? "active" :""} >{title}</NavLink>
 
                   </li>))
-                  } </ul>
+                  } 
+                    <li className='text-white py-1'><Link to="/login" >Log In</Link></li></ul>
             </div>
         </header>
     );
