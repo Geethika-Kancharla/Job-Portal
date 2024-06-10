@@ -1,7 +1,7 @@
-import React from 'react';
+import React , { useState } from 'react';
 import Banner from "../components/Banner";
 
-function Home=()=> {
+function Home (){
   const[query,setQuery]=useState("");
   const handleInputChange = (event) => {
       setQuery(event.target.value);
