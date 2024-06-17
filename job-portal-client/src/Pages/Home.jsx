@@ -52,7 +52,7 @@ const Home = () => {
     }
   };
 
-  const filteredItems = jobs.filter((job) => 
+  const filteredItems = jobs.filter((job) =>
     job.jobTitle.toLowerCase().includes(query.toLowerCase())
   );
 
@@ -99,9 +99,9 @@ const Home = () => {
           {
             result.length > 0 && (
               <div className='flex justify-center mt-4 space-x-8'>
-                <button onClick={prevPage}>Previous</button>
+                <button onClick={prevPage} disabled={currentPage === 1} className='hover:underline'>Previous</button>
                 <span>Page {currentPage} of {Math.ceil(filteredItems.length / itemsPerPage)}</span>
-                <button onClick={nextPage}>Next</button>
+                <button onClick={nextPage} disabled={currentPage === Math.ceil(filteredItems.length / itemsPerPage)} className='hover:underline'>Next</button>
               </div>
             )
           }
