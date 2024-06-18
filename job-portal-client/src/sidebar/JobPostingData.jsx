@@ -1,4 +1,5 @@
 import React from 'react'
+import InputField from '../components/InputField';
 
 const JobPostingData = ({ handleChange }) => {
 
@@ -11,7 +12,6 @@ const JobPostingData = ({ handleChange }) => {
     const twentyFourHoursAgoDate = twentyFourHoursAgo.toISOString().slice(0, 10);
     const SevenDaysAgoDate = SevenDaysAgo.toISOString().slice(0, 10);
     const ThirtyDaysAgoDate = ThirtyDaysAgo.toISOString().slice(0, 10);
-
 
     return (
         <div>
