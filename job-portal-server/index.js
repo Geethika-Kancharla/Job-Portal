@@ -1,22 +1,16 @@
-const express = require('express')
-const app = express()
-const cors = require('cors')
-const port = process.env.PORT ||3002;
-require('dotenv').config()
-console.log(process.env.db_user)
-console.log(process.env.db_passwd)
-
-app.use(express.json())
-app.use(cors())
-
-// username: jyothikalakshmim07
-// password: QMd3CtO7H0J8zsg8
-
-
+const express = require('express');
+const cors = require('cors');
+require('dotenv').config();
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = `mongodb+srv://${process.env.db_user}:${process.env.db_passwd}@job-portal-demo.tmuwq60.mongodb.net/?retryWrites=true&w=majority&appName=job-portal-demo`;
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const app = express();
+const port = process.env.PORT || 5000;
+
+app.use(express.json());
+app.use(cors());
+
+const uri = `mongodb+srv://KIRTHANA:WX4VIro0Wxk9yT0x@job-portal-demo.3y7szqr.mongodb.net/?retryWrites=true&w=majority&appName=job-portal-demo`;
+
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -25,31 +19,67 @@ const client = new MongoClient(uri, {
   }
 });
 
-async function run() {
+let jobCollections;
+
+async function connectToMongo() {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
+    const db = client.db("mernJobPortal");
+    jobCollections = db.collection("demoJobs");
+    console.log("Connected to MongoDB");
+  } catch (error) {
+    console.error("Failed to connect to MongoDB", error);
+    process.exit(1);
   }
 }
-run().catch(console.dir);
 
+connectToMongo();
 
+// Routes
 app.get('/', (req, res) => {
-  res.send('Hello developer!')
-})
+  res.send('Hello World!');
+});
+
+app.post('/postJob', async (req, res) => {
+  try {
+    const body = req.body;
+    body.createdAt = new Date();
+
+    const result = await jobCollections.insertOne(body);
+    if (result.acknowledged) {
+      res.status(200).send(result);
+    } else {
+      res.status(500).send({
+        message: "Failed to post job",
+        status: false
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "An error occurred",
+      error: error.message
+    });
+  }
+});
+
+app.get('/all-jobs', async (req, res) => {
+  try {
+    const jobs = await jobCollections.find({}).toArray();
+    res.status(200).send(jobs);
+  } catch (error) {
+    res.status(500).send({
+      message: "Failed to fetch jobs",
+      error: error.message
+    });
+  }
+});
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
-// ensures mongodb client connection is properly closed when server is stopped
+  console.log(`Server is running on http://localhost:${port}`);
+});
+
 process.on('SIGINT', async () => {
-    console.log('Shutting down server...');
-    await client.close();
-    process.exit(0);
-  });
+  console.log('Shutting down server...');
+  await client.close();
+  process.exit(0);
+});
