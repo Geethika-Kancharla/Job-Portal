@@ -4,7 +4,6 @@ import Jobs from "./Jobs";
 import Card from '../components/Card';
 import '../App.css';
 import Sidebar from '../sidebar/Sidebar';
-import Newsletter from '../components/Newsletter';
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -12,6 +11,7 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [query, setQuery] = useState("");
+  const [location, setLocation] = useState("");
   const itemsPerPage = 6;
 
   useEffect(() => {
@@ -24,9 +24,13 @@ const Home = () => {
   }, []);
 
   const handleInputChange = (event) => {
-    setQuery(event.target.value);
+    const { name, value } = event.target;
+    if (name === 'title') {
+      setQuery(value);
+    } else if (name === 'location') {
+      setLocation(value);
+    }
   };
-
   const handleChange = (event) => {
     setSelectedCategory(event.target.value);
   };
@@ -53,7 +57,7 @@ const Home = () => {
     }
   };
 
-  const filteredItems = jobs.filter((job) =>
+  const filteredItems = jobs.filter((job) => 
     job.jobTitle.toLowerCase().includes(query.toLowerCase())
   );
 
@@ -63,9 +67,7 @@ const Home = () => {
       filteredJobs = filteredJobs.filter(({ jobLocation, maxPrice, experienceLevel, salaryType, employmentType, postingDate }) => (
         jobLocation.toLowerCase() === selectedCategory.toLowerCase() ||
         parseInt(maxPrice) <= parseInt(selectedCategory) ||
-        postingDate >= selectedCategory ||
         salaryType.toLowerCase() === selectedCategory.toLowerCase() ||
-        experienceLevel.toLowerCase() === selectedCategory.toLowerCase() ||
         employmentType.toLowerCase() === selectedCategory.toLowerCase()
       ));
     }
@@ -102,15 +104,15 @@ const Home = () => {
           {
             result.length > 0 && (
               <div className='flex justify-center mt-4 space-x-8'>
-                <button onClick={prevPage} disabled={currentPage === 1} className='hover:underline'>Previous</button>
+                <button onClick={prevPage}>Previous</button>
                 <span>Page {currentPage} of {Math.ceil(filteredItems.length / itemsPerPage)}</span>
-                <button onClick={nextPage} disabled={currentPage === Math.ceil(filteredItems.length / itemsPerPage)} className='hover:underline'>Next</button>
+                <button onClick={nextPage}>Next</button>
               </div>
             )
           }
         </div>
 
-        <div className="bg-white p-4 rounded"><Newsletter /></div>
+        <div className="bg-white p-4 rounded">Right</div>
       </div>
     </div>
   );

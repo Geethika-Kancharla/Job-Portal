@@ -73,6 +73,21 @@ app.get('/all-jobs', async (req, res) => {
     });
   }
 });
+//get jobs by email
+app.get('/myJobs/:email', async (req, res) => {
+  try {
+    console.log(`Fetching jobs for email: ${req.params.email}`); // Logging for debugging
+    const jobs = await jobCollections.find({ postedBy: req.params.email }).toArray();
+    if (jobs.length === 0) {
+      res.status(404).send({ message: "No jobs found for the specified email" });
+    } else {
+      res.status(200).send(jobs);
+    }
+  } catch (error) {
+    res.status(500).send({ message: "Failed to fetch jobs", error: error.message });
+  }
+});
+
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
