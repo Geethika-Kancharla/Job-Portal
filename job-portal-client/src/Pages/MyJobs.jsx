@@ -8,9 +8,13 @@ const MyJobs = () => {
   const [error, setError] = useState(null);
   const [searchText, setSearchText] = useState("");
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
+
+
   useEffect(() => {
     setIsLoading(true);
-    fetch(`http://localhost:5000/myJobs/jyo.j@gmail.com`)
+    fetch(`http://localhost:5000/myJobs/jyo@gmail.com`)
       .then((res) => {
         if (!res.ok) {
           throw new Error('Network response was not ok');
@@ -27,6 +31,24 @@ const MyJobs = () => {
         setIsLoading(false);
       });
   }, []);
+
+  // pagination
+
+  const indexOfLastItem = currentPage *itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentJobs = jobs.slice(indexOfFirstItem, indexOfLastItem)
+
+  // next btn and prev btn
+  const nextPage =() =>{
+    if(indexOfLastItem < jobs.length){
+      setCurrentPage(currentPage+1)
+    }
+  }
+  const prevPage =() =>{
+    if(currentPage>1){
+      setCurrentPage(currentPage-1)
+    }
+  }
 
   const handleSearch = () => {
     const filter = jobs.filter((job) =>
@@ -124,42 +146,61 @@ const MyJobs = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody>
-                  {jobs.map((job, index) => (
-                    <tr key={index}>
-                      <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700">
-                        {index + 1}
-                      </th>
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                        {job.jobTitle}
-                      </td>
-                      <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                        {job.companyName}
-                      </td>
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                        ${job.minPrice} - ${job.maxPrice}
-                      </td>
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                        <button><Link to={`/edit-job/${job._id}`}>Edit</Link></button>
-                      </td>
-                      <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                        <button onClick={() => handleDelete(job._id)} className='bg-red-700 px-6 py-2 text-white rounded-sm'>Delete</button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
+
+                {
+                  isLoading ? (<div className='flex items-center justify-center h-20'><p> loading...</p></div>):(  <tbody>
+                    {currentJobs.map((job, index) => (
+                      <tr key={index}>
+                        <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700">
+                          {index + 1}
+                        </th>
+                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                          {job.jobTitle}
+                        </td>
+                        <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                          {job.companyName}
+                        </td>
+                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                          ${job.minPrice} - ${job.maxPrice}
+                        </td>
+                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                          <button><Link to={`/edit-job/${job._id}`}>Edit</Link></button>
+                        </td>
+                        <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                          <button onClick={() => handleDelete(job._id)} className='bg-red-700 px-6 py-2 text-white rounded-sm'>Delete</button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>)
+                }
+
+
+              
               </table>
             </div>
           </div>
         </div>
-        <footer className="relative pt-8 pb-6 mt-16">
+        {/* <footer className="relative pt-8 pb-6 mt-16">
           <div className="container mx-auto px-4">
             <div className="flex flex-wrap items-center md:justify-between justify-center">
               <div className="w-full md:w-6/12 px-4 mx-auto text-center">
               </div>
             </div>
           </div>
-        </footer>
+        </footer> */}
+
+        <div className='flex justify-center text-black space-x-8 mb-8'>
+          {
+            currentPage >1 && (
+              <button className='hover:underline' onClick={prevPage}>previous</button>
+            )
+          }
+          {
+            indexOfLastItem < jobs.length &&(
+              <button  onClick={nextPage} className='hover:undeline'>next</button>
+            )
+          }
+        </div>
       </section>
     </div>
   );
