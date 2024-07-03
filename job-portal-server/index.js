@@ -9,7 +9,7 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors());
 
-const uri = `mongodb+srv://KIRTHANA:WX4VIro0Wxk9yT0x@job-portal-demo.3y7szqr.mongodb.net/?retryWrites=true&w=majority&appName=job-portal-demo`;
+const uri = `mongodb+srv://fsproject304:u45MVHUriNanr09e@job-portal-demo.guvgi0x.mongodb.net/?retryWrites=true&w=majority&appName=job-portal-demo`;
 
 const client = new MongoClient(uri, {
   serverApi: {

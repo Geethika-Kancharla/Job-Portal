@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
-import Home from '../Pages/home';  // Ensure the casing matches the actual file name
+import Home from '../Pages/Home';  // Ensure the casing matches the actual file name
 
 import About from '../Pages/About';
 import CreateJob from '../Pages/CreateJob';
