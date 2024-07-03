@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -73,7 +73,8 @@ app.get('/all-jobs', async (req, res) => {
     });
   }
 });
-//get jobs by email
+
+// Get jobs by email
 app.get('/myJobs/:email', async (req, res) => {
   try {
     console.log(`Fetching jobs for email: ${req.params.email}`); // Logging for debugging
@@ -88,6 +89,21 @@ app.get('/myJobs/:email', async (req, res) => {
   }
 });
 
+// DELETE job by ID
+app.delete('/job/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const filter = { _id: new ObjectId(id) };
+    const result = await jobCollections.deleteOne(filter);
+    if (result.deletedCount === 1) {
+      res.status(200).send({ acknowledged: true });
+    } else {
+      res.status(404).send({ acknowledged: false, message: "Job not found" });
+    }
+  } catch (error) {
+    res.status(500).send({ message: "Failed to delete job", error: error.message });
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
