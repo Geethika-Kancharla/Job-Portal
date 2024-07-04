@@ -15,7 +15,23 @@ const CreateJob = () => {
 
     const onSubmit = (data) => {
         data.skills = selectedOption;
-        console.log(data)
+        fetch('http://localhost:5000/postJob', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+        })
+            .then((res) => res.json())
+            .then((result) => {
+                console.log(result);
+                if (result.acknowledged === true) {
+                    alert('Job posted successfully');
+                    reset();
+                }
+            })
+            .catch((error) => {
+                console.error('Error posting job:', error);
+                alert('An error occurred while posting job');
+            });
     }
 
     console.log(watch("example"))
