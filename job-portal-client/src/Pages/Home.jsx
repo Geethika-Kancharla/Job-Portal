@@ -57,7 +57,7 @@ const Home = () => {
     }
   };
 
-  const filteredItems = jobs.filter((job) => 
+  const filteredItems = jobs.filter((job) =>
     job.jobTitle.toLowerCase().includes(query.toLowerCase())
   );
 
