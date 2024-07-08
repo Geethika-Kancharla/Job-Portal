@@ -1,7 +1,21 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { FaEnvelopeOpenText, FaRocket } from 'react-icons/fa6'
 
 const Newsletter = () => {
+    const [email, setEmail] = useState(''); 
+
+    const handleSubscribe = () => {
+        // Add your subscription logic here
+        if (!email) {
+            alert("Please enter your email address.");
+            return;
+        }
+        alert(`Subscribed successfully with email: ${email}`);
+    };
+    const handleChangeInput = (event) => {
+        setEmail(event.target.value);
+    };
+
     return (
         <div >
             <div>
@@ -10,8 +24,12 @@ const Newsletter = () => {
                     Email me for jobs</h3>
                 <p className='text-primary/75 text-base mb-4'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur repudiandae modi cumque suscipit magnam excepturi rem, laudantium facilis error debitis laboriosam, quidem quibusdam nemo quasi voluptates, sit quae tempore magni!</p>
                 <div>
-                    <input type='email' name='email' placeholder='name@mail.com' className='w-full block py-2 pl-3 border focus:outline-none' />
-                    <input type='submit' value={"Subscribe"} className='w-full block py-2 pl-3 border focus:outline-none bg-blue rounded-sm text-white cursor-pointer font-semibold' />
+                    <input type='email' name='email' placeholder='name@mail.com' className='w-full block py-2 pl-3 border focus:outline-none'
+                    onChange ={handleChangeInput} />
+                    <input type='submit' name='subscribe' value={"Subscribe"} className='w-full block py-2 pl-3 border focus:outline-none bg-blue rounded-sm text-white cursor-pointer font-semibold'
+                       onClick={handleSubscribe}
+                    />
+                   
                 </div>
             </div>
 
