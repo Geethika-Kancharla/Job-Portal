@@ -3,7 +3,6 @@ import { useFirebase } from '../context/Firebase';
 import { useNavigate, Link } from 'react-router-dom';
 import './Login.css'
 
-
 const Login = () => {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
