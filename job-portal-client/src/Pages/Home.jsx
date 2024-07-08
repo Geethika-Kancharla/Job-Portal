@@ -4,6 +4,7 @@ import Jobs from "./Jobs";
 import Card from '../components/Card';
 import '../App.css';
 import Sidebar from '../sidebar/Sidebar';
+import Newsletter from '../components/Newsletter';
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -31,6 +32,8 @@ const Home = () => {
       setLocation(value);
     }
   };
+
+
   const handleChange = (event) => {
     setSelectedCategory(event.target.value);
   };
@@ -57,8 +60,11 @@ const Home = () => {
     }
   };
 
-  const filteredItems = jobs.filter((job) =>
-    job.jobTitle.toLowerCase().includes(query.toLowerCase())
+  const filteredItems = jobs.filter((job) => {
+   const tileMatches= job.jobTitle.toLowerCase().includes(query.toLowerCase());
+   const locMatches=job.jobLocation.toLowerCase().includes(location.toLowerCase());
+   return tileMatches && locMatches;
+  }
   );
 
   const filteredData = () => {
@@ -112,7 +118,7 @@ const Home = () => {
           }
         </div>
 
-        <div className="bg-white p-4 rounded">Right</div>
+        <div className="bg-white p-4 rounded"><Newsletter/></div>
       </div>
     </div>
   );
