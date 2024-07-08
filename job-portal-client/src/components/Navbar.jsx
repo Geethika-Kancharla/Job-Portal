@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { FaBarsStaggered, FaXmark } from "react-icons/fa6";
+import { useFirebase } from '../context/Firebase';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const firebase = useFirebase();
 
   const handleMenuToggler = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -16,7 +18,7 @@ const Navbar = () => {
   ]
 
   return (
-    <header className='max-w-screen-2xl container mx-auto xl:px-24 px-4 fixed top-0 left-0'>
+    <header className=' max-w-screen-2xl container mx-auto xl:px-24 px-4 fixed top-0'>
       <nav className='flex justify-between items-center py-6' >
         <a href='/' className='flex items-center gap-2 text-2xl'>
           <svg xmlns="http://www.w3.org/2000/svg" width="29" height="30" viewBox="0 0 29 30" fill="none">
@@ -37,8 +39,8 @@ const Navbar = () => {
         </ul>
         {/*sign up and login */}
         <div className='text-base text-primary font-medium space-x-5 hidden lg:block'>
-          {/* <Link to="/login" className='py-2 px-5 border rounded'>Log In</Link>
-          <Link to="/Sign Up" className='py-2 px-5 border rounded bg-blue text-white'>Sign Up</Link> */}
+          <button className='border border-black p-2 rounded-md mb-10' type='submit' onClick={firebase.handleLogout}>Log out</button>
+          {/* <Link to="/Sign Up" className='py-2 px-5 border rounded bg-blue text-white'>Sign Up</Link> */}
         </div>
         {/* mobile menu */}
         <div className='md:hidden block'>
@@ -58,7 +60,7 @@ const Navbar = () => {
 
           </li>))
         }
-          {/* <li className='text-white py-1'><Link to="/login" >Log In</Link></li> */}
+          <Link><button className='bg-green-500 p-2 rounded-md mb-10' type='submit' onClick={firebase.handleLogout}>Log out</button></Link>
         </ul>
       </div>
     </header>

@@ -61,9 +61,9 @@ const Home = () => {
   };
 
   const filteredItems = jobs.filter((job) => {
-   const tileMatches= job.jobTitle.toLowerCase().includes(query.toLowerCase());
-   const locMatches=job.jobLocation.toLowerCase().includes(location.toLowerCase());
-   return tileMatches && locMatches;
+    const tileMatches = job.jobTitle.toLowerCase().includes(query.toLowerCase());
+    const locMatches = job.jobLocation.toLowerCase().includes(location.toLowerCase());
+    return tileMatches && locMatches;
   }
   );
 
@@ -87,7 +87,7 @@ const Home = () => {
   const result = filteredData();
 
   return (
-    <div>
+    <div className='h-screen'>
       <Banner query={query} handleInputChange={handleInputChange} />
       <div className="bg-[#FAFAFA] md:grid grid-cols-4 gap-8 lg:px-24 px-4 py-12">
         <div className="bg-white p-4 rounded">
@@ -118,7 +118,7 @@ const Home = () => {
           }
         </div>
 
-        <div className="bg-white p-4 rounded"><Newsletter/></div>
+        <div className="bg-white p-4 rounded"><Newsletter /></div>
       </div>
     </div>
   );

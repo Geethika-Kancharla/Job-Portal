@@ -1,7 +1,7 @@
 import React from 'react'
 import { FiMapPin, FiSearch } from "react-icons/fi"
 
-const Banner = ({ query,location, handleInputChange }) => {
+const Banner = ({ query, location, handleInputChange }) => {
 
   return (
 
