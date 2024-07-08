@@ -31,25 +31,23 @@ const Login = () => {
     }, [firebase, navigate])
 
     return (
-        <div className='flex items-center justify-center '>
-            <div className="login-container ">
-                <h2 className='font-bold mb-3 text-lg'>Welcome Back</h2>
-                <form onSubmit={handleSubmit}>
-                    <input type="email" id="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                    <input type="password" id='password' placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                    <div className="forgot-password" onClick={handlePasswordReset}>
-                        <span className='text-sm'>Forgot your password?</span>
-                    </div>
-                    <button type="submit" className='bg-gradient-to-br from-green-300 to-blue-300 p-2'>Sign In</button>
-                </form>
-                <div className="signup-option">
-                    <p>Don't have an account? <Link to="/register">Sign Up</Link></p>
+        <div className='min-h-screen flex items-center justify-center '>
+            <form onSubmit={handleSubmit} className='flex justify-center items-center rounded-md shadow-lg '>
+                <div className='flex flex-col p-14 space-y-5 rounded-md shadow-3xl bg-white'>
+                    <h2 className='text-3xl text-center mb-7'>Welcome Back </h2>
+
+                    <input type='email' placeholder='Enter the email' value={email} onChange={(e) => setEmail(e.target.value)} className=' border border-slate-800 rounded-lg w-80 p-2 placeholder-black'></input>
+
+                    <input type='password' placeholder='Enter the password' value={password} onChange={(e) => setPassword(e.target.value)} className='border border-slate-800 rounded-lg w-80 p-2 placeholder-black'></input>
+
+                    <p className='text-sky-400 text-left' onClick={handlePasswordReset}>Forgot your password?</p>
+
+                    <button className='border border-blue p-2 rounded-md ' type='submit'>Sign In</button>
+                    <p className='text-center'>Don't have an account? <Link to="/register" className="text-sky-500">Sign up</Link></p>
+
+                    <button className='border border-blue p-2 rounded-md ' onClick={firebase.signinWithGoogle} type='submit'>Continue with Google</button>
                 </div>
-                <div className="google-login " onClick={firebase.signinWithGoogle}>
-                    <img src="https://www.google.com/favicon.ico" alt="Google Logo" />
-                    <span>Continue with Google</span>
-                </div>
-            </div>
+            </form>
         </div>
     )
 }

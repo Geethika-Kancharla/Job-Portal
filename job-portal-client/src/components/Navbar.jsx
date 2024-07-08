@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { FaBarsStaggered, FaXmark } from "react-icons/fa6";
 import { useFirebase } from '../context/Firebase';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const firebase = useFirebase();
+  const navigate = useNavigate();
 
   const handleMenuToggler = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -16,6 +17,13 @@ const Navbar = () => {
     { path: "/salary", title: "Salary Estimate" },
     { path: "/post-job", title: "Post A Job" },
   ]
+
+  const handleLogout = () => {
+    firebase.handleLogout();
+    console.log(logout);
+    navigate("/");
+
+  }
 
   return (
     <header className=' max-w-screen-2xl container mx-auto xl:px-24 px-4 fixed top-0'>
@@ -38,8 +46,10 @@ const Navbar = () => {
         }
         </ul>
         {/*sign up and login */}
-        <div className='text-base text-primary font-medium space-x-5 hidden lg:block'>
-          <button className='border border-black p-2 rounded-md mb-10' type='submit' onClick={firebase.handleLogout}>Log out</button>
+        <div className='text-base text-primary font-medium space-x-5 hidden lg:block'>{
+          firebase.isLoggedIn &&
+          <button className='border border-black p-2 rounded-md mb-10' type='submit' onClick={handleLogout}>Log out</button>
+        }
           {/* <Link to="/Sign Up" className='py-2 px-5 border rounded bg-blue text-white'>Sign Up</Link> */}
         </div>
         {/* mobile menu */}
@@ -60,7 +70,7 @@ const Navbar = () => {
 
           </li>))
         }
-          <Link><button className='bg-green-500 p-2 rounded-md mb-10' type='submit' onClick={firebase.handleLogout}>Log out</button></Link>
+          <Link><button className='bg-green-500 p-2 rounded-md mb-10' type='submit' onClick={handleLogout}>Log out</button></Link>
         </ul>
       </div>
     </header>
