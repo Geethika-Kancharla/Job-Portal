@@ -91,7 +91,7 @@ const MyJobs = () => {
     }
 
     return (
-        <div className='max-w-screen-2xl container mx-auto xl:px-4'>
+        <div className='max-w-screen-2xl container mx-auto xl:px-4 pt-20'>
             <div className='my-jobs-container'>
                 <h1 className='text-center p-4'>ALL MY JOBS</h1>
             </div>
