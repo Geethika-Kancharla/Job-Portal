@@ -45,7 +45,9 @@ const Newsletter = () => {
                 <h3 className='text-lg font-bold mb-2 flex items-center gap-2'>
                     <FaEnvelopeOpenText />
                     Email me for jobs</h3>
-                <p className='text-primary/75 text-base mb-4'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur repudiandae modi cumque suscipit magnam excepturi rem, laudantium facilis error debitis laboriosam, quidem quibusdam nemo quasi voluptates, sit quae tempore magni!</p>
+                <p className='text-primary/75 text-base mb-4'>Stay Updated with the Latest Job Openings
+Subscribe to Our Newsletter!
+Be the first to know about the latest job opportunities in your field. By subscribing to our newsletter, you'll receive</p>
                 <div>
                     <input type='email' name='email' placeholder='name@mail.com' className='w-full block py-2 pl-3 border focus:outline-none'
                         onChange={handleChangeInput} />
@@ -60,7 +62,9 @@ const Newsletter = () => {
                 <h3 className='text-lg font-bold mb-2 flex items-center gap-2'>
                     <FaRocket />
                     Get noticed faster</h3>
-                <p className='text-primary/75 text-base mb-4'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur repudiandae modi cumque suscipit magnam excepturi rem, laudantium facilis error debitis laboriosam, quidem quibusdam nemo quasi voluptates, sit quae tempore magni!</p>
+                <p className='text-primary/75 text-base mb-4'>Upload Your Resume
+Get Noticed by Top Employers!
+Maximize your job search potential by uploading your resume to our platform. By doing so, you'l</p>
                 <div>
                     {/* Hidden file input */}
                     <input
