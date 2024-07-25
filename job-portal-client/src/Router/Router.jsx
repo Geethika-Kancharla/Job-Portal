@@ -8,6 +8,7 @@ import SalaryPage from '../Pages/SalaryPage';
 import UpdateJob from '../Pages/UpdateJob';
 import Login from '../Pages/Login';
 import Register from '../Pages/Register'
+import ProtectedRoute from '../components/ProtectedRoute';
 
 const router = createBrowserRouter([
   {
@@ -28,15 +29,27 @@ const router = createBrowserRouter([
       },
       {
         path: '/about',
-        element: <About />
+        element: (
+          <ProtectedRoute allowedRoles={['admin']}>
+            <About />
+          </ProtectedRoute>
+        )
       },
       {
         path: '/post-job',
-        element: <CreateJob />
+        element: (
+          <ProtectedRoute allowedRoles={['admin']}>
+            <CreateJob />
+          </ProtectedRoute>
+        )
       },
       {
         path: '/my-job',
-        element: <MyJobs />
+        element: (
+          <ProtectedRoute allowedRoles={['admin']}>
+            <MyJobs />
+          </ProtectedRoute>
+        )
       },
       {
         path: '/salary',
@@ -44,7 +57,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/edit-job/:id',
-        element: <UpdateJob />,
+        element: (
+          <ProtectedRoute allowedRoles={['admin']}>
+            <UpdateJob />
+          </ProtectedRoute>
+        )
       },
 
     ],

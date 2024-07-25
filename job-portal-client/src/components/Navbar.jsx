@@ -18,14 +18,14 @@ const Navbar = () => {
     { path: "/post-job", title: "Post A Job" },
   ]
 
-  const handleLogout = async() => {
-    try{
-   await firebase.handleLogout();
-    console.log(logout);
-    navigate("/");
+  const handleLogout = async () => {
+    try {
+      await firebase.handleLogout();
+      console.log(logout);
+      navigate("/");
     }
-    catch(err){
-      console.log("error:",err);
+    catch (err) {
+      console.log("error:", err);
     }
 
   }

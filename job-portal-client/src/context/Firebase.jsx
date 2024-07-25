@@ -9,7 +9,7 @@ import {
     signOut,
     sendPasswordResetEmail,
 } from 'firebase/auth'
-import { getFirestore, collection, query, where, getDocs, doc, deleteDoc, setDoc, serverTimestamp, addDoc } from "firebase/firestore";
+import { getFirestore, getDoc, doc, setDoc } from "firebase/firestore";
 
 const FirebaseContext = createContext(null);
 
@@ -38,15 +38,44 @@ export const useFirebase = () => {
 export const FirebaseProvider = (props) => {
 
     const [user, setUser] = useState(null);
+    const [role, setRole] = useState(null);
 
     useEffect(() => {
-        onAuthStateChanged(firebaseAuth, user => {
-            if (user)
-                setUser(user);
-            else
+        onAuthStateChanged(firebaseAuth, async (user) => {
+            if (user) {
+                const userDocRef = doc(firestore, 'users', user.uid);
+                const userDoc = await getDoc(userDocRef);
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    setUser(user);
+                    setRole(userData.role);
+                }
+            } else {
                 setUser(null);
+                setRole(null);
+            }
         })
     }, [])
+
+
+    // useEffect(() => {
+    //     const unsubscribe = onAuthStateChanged(firebaseAuth, async (user) => {
+    //         if (user) {
+    //             const userDocRef = doc(firestore, 'users', user.uid);
+    //             const userDoc = await getDoc(userDocRef);
+    //             if (userDoc.exists()) {
+    //                 const userData = userDoc.data();
+    //                 setUser(user);
+    //                 setRole(userData.role);
+    //             }
+    //         } else {
+    //             setUser(null);
+    //             setRole(null);
+    //         }
+    //     });
+
+    //     return () => unsubscribe();
+    // }, []);
 
     const addUser = (email, password, name, phno) => {
         createUserWithEmailAndPassword(firebaseAuth, email, password)
@@ -72,6 +101,7 @@ export const FirebaseProvider = (props) => {
                 console.error(error);
             });
     };
+
     const handleLogout = async () => {
         try {
             await signOut(firebaseAuth);
@@ -100,6 +130,7 @@ export const FirebaseProvider = (props) => {
             signinUserWithEmailAndPassword,
             addUser,
             user,
+            role,
             handleLogout,
             signinWithGoogle,
             sendPReset,
